@@ -1,0 +1,68 @@
+{
+  "trust": [],
+  "benefits": [],
+  "steps": [
+    {
+      "title": "Conte sobre a sua equipe",
+      "description": "Diga quantas pessoas, as datas, se precisa de jantar e de faturamento por CNPJ. É rápido, pelo WhatsApp ou e-mail."
+    },
+    {
+      "title": "Receba a proposta",
+      "description": "Enviamos uma cotação com tarifa por equipe e período, sem compromisso, já considerando café da manhã e jantar."
+    },
+    {
+      "title": "Sua equipe descansa bem",
+      "description": "Hospedagem com conforto de praia em {cidade}, a minutos do trabalho nas duas margens do porto, pronta para render no dia seguinte."
+    }
+  ],
+  "ctaTitle": "Pronto para hospedar sua equipe com conforto?",
+  "ctaSubtitle": "Receba uma proposta de hospedagem corporativa para o Guarujá, Santos e toda a Baixada Santista, sem compromisso.",
+  "ctaButton": "Falar com consultor",
+  "heroOverlay": { "enabled": true, "opacity": 72 },
+  "featuredServices": [
+    "viagens-corporativas",
+    "projetos-e-obras",
+    "relocacao-longa-permanencia"
+  ],
+  "sections": {
+    "servicos": { "eyebrow": "para quem é", "title": "Da diária à longa permanência" },
+    "comoFunciona": { "eyebrow": "simples e rápido", "title": "Como reservar para a sua equipe" },
+    "ondeAtendemos": { "eyebrow": "onde estamos", "title": "Guarujá, Santos e região portuária" },
+    "contato": { "eyebrow": "fale com a gente", "title": "Reserve para a sua equipe" }
+  },
+  "show": {
+    "trust": false,
+    "benefits": true,
+    "comoFunciona": false,
+    "quemSomos": true,
+    "ondeAtendemos": true,
+    "contato": true,
+    "ctaFinal": true
+  },
+  "metrics": [],
+  "amenities": [
+    { "icon": "coffee", "label": "Café da manhã artesanal" },
+    { "icon": "dinner", "label": "Jantar (meia ou pensão completa)" },
+    { "icon": "pool", "label": "Piscina com bar" },
+    { "icon": "ac", "label": "Ar-condicionado" },
+    { "icon": "wifi", "label": "Wi-Fi" },
+    { "icon": "parking", "label": "Estacionamento no local" },
+    { "icon": "bed", "label": "Suítes com ou sem varanda" },
+    { "icon": "clock", "label": "Recepção 24h" },
+    { "icon": "invoice", "label": "Faturamento por CNPJ" },
+    { "icon": "beach", "label": "A 100m da Praia do Tombo" },
+    { "icon": "port", "label": "A minutos do Porto de Santos" },
+    { "icon": "fridge", "label": "Frigobar" },
+    { "icon": "linen", "label": "Roupa de cama e toalhas" },
+    { "icon": "clean", "label": "Limpeza adicional" }
+  ],
+  "testimonials": [],
+  "faq": [
+    { "q": "O Hotel Cajueiro fica perto do Porto de Santos?", "a": "Sim. Ficamos no Guarujá (Margem Esquerda), a poucos minutos das operações e a uma travessia de Santos. Atendemos toda a Baixada Santista." },
+    { "q": "Vocês atendem empresas com faturamento por CNPJ?", "a": "Sim, atendemos empresas e equipes com faturamento por CNPJ e condições para estadias de trabalho." },
+    { "q": "O que está incluso? Tem jantar?", "a": "O café da manhã artesanal está incluso. Na modalidade corporativa é possível incluir jantar (meia pensão ou pensão completa)." },
+    { "q": "A que distância fica da praia?", "a": "A cerca de 100 metros da Praia do Tombo, entre as praias de Astúrias e Guaiúba." },
+    { "q": "Tem estacionamento?", "a": "Sim, estacionamento no local." },
+    { "q": "Quais formas de pagamento são aceitas?", "a": "Cartões (Visa, Mastercard, Elo, Amex e outros), Pix e boleto. Confirme as opções na reserva." }
+  ]
+}

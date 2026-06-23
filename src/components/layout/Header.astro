@@ -1,0 +1,54 @@
+---
+/**
+ * Header.astro — barra de aviso (topo) + nav (logo + links + WhatsApp).
+ * Data-driven: lê siteConfig + localBusiness. Os links da nav apontam para
+ * âncoras da home (/#secao), funcionando a partir de qualquer página.
+ */
+import { readData } from '../../lib/readData';
+
+const siteConfig = readData('siteConfig.json');
+const biz = readData('localBusiness.json', {}) as any;
+const waNumber = (biz.whatsapp || '').replace(/\D/g, '');
+const waUrl = waNumber
+  ? `https://wa.me/${waNumber}?text=${encodeURIComponent(biz.whatsappMessage || 'Olá! Vim pelo site e gostaria de um orçamento.')}`
+  : '';
+
+// Barra de aviso (global). Edite o texto aqui.
+const announcement = 'Hospedagem corporativa com tarifas e condições especiais. A melhor estrutura em comparação com as demais alternativas da região.';
+
+// overlay mantido para compatibilidade com BaseLayout (não usado nesta home).
+const { overlay = false } = Astro.props as { overlay?: boolean };
+---
+
+<!-- Barra de aviso -->
+<div class="bg-[#2C3A20] text-[#F4EEDD]">
+  <div class="container-x py-2.5 flex items-center justify-center gap-2.5 text-center">
+    <span class="text-[13px] md:text-sm font-medium leading-snug">{announcement} <strong class="font-bold text-cat-ocre">Pode comparar!</strong></span>
+  </div>
+</div>
+
+<!-- Nav -->
+<header class="bg-bg/85 backdrop-blur-md text-ink sticky top-0 z-40">
+  <div class="container-x flex items-center justify-between h-[80px] gap-3 md:gap-6">
+    <a href="/" class="flex items-center no-underline shrink-0" aria-label="Início">
+      {siteConfig.logo ? (
+        <img src={siteConfig.logo} alt={siteConfig.name} class="w-auto h-[2.7rem] md:h-[3.4rem]" />
+      ) : (
+        <span class="leading-none">
+          <span class="block text-[11px] tracking-[0.46em] text-cat-terracota font-bold mb-0.5">HOTEL</span>
+          <span class="block font-display italic font-semibold text-2xl text-ink leading-none">{(siteConfig.name || 'Cajueiro').replace(/^Hotel\s+/i, '')}</span>
+        </span>
+      )}
+    </a>
+
+    {waUrl && (
+      <div class="flex items-center shrink-0">
+        <img src="/images/caju.avif" alt="" aria-hidden="true" class="h-10 md:h-[3.24rem] w-auto -mr-3 md:-mr-4 relative z-10 pointer-events-none select-none -scale-x-100 translate-x-2.5 md:translate-x-2" />
+        <a href={waUrl} target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center min-h-[36px] pl-7 pr-5 rounded-full bg-[#db3d26] text-bg text-sm font-semibold uppercase tracking-wide no-underline hover:brightness-95 transition-[filter]">
+          Contato
+        </a>
+      </div>
+    )}
+  </div>
+</header>

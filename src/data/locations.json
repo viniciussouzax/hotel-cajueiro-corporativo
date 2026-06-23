@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Guarujá",
+    "slug": "guaruja",
+    "state": "SP",
+    "type": "cidade",
+    "active": true
+  },
+  {
+    "name": "Santos",
+    "slug": "santos",
+    "state": "SP",
+    "type": "cidade",
+    "active": true
+  },
+  {
+    "name": "Praia do Tombo",
+    "slug": "praia-do-tombo",
+    "state": "SP",
+    "city": "Guarujá",
+    "citySlug": "guaruja",
+    "type": "bairro",
+    "active": true
+  },
+  {
+    "name": "Enseada",
+    "slug": "enseada",
+    "state": "SP",
+    "city": "Guarujá",
+    "citySlug": "guaruja",
+    "type": "bairro",
+    "active": true
+  },
+  {
+    "name": "Pitangueiras",
+    "slug": "pitangueiras",
+    "state": "SP",
+    "city": "Guarujá",
+    "citySlug": "guaruja",
+    "type": "bairro",
+    "active": true
+  },
+  {
+    "name": "Astúrias",
+    "slug": "asturias",
+    "state": "SP",
+    "city": "Guarujá",
+    "citySlug": "guaruja",
+    "type": "bairro",
+    "active": true
+  },
+  {
+    "name": "Vicente de Carvalho",
+    "slug": "vicente-de-carvalho",
+    "state": "SP",
+    "city": "Guarujá",
+    "citySlug": "guaruja",
+    "type": "bairro",
+    "active": true
+  },
+  {
+    "name": "Gonzaga",
+    "slug": "gonzaga",
+    "state": "SP",
+    "city": "Santos",
+    "citySlug": "santos",
+    "type": "bairro",
+    "active": true
+  }
+]

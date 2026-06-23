@@ -1,0 +1,403 @@
+---
+/**
+ * LocalHome.astro — Home do Hotel Cajueiro (frontend novo, data-driven).
+ *
+ * Mantém a camada de dados original (loadHomeData / localHome.json / localBusiness.json),
+ * editável pelo admin. Apenas o markup/visual foi atualizado para o design aprovado.
+ * Header e Footer continuam vindo do BaseLayout.
+ *
+ * Seções data-driven : hero, como reservar (steps), para quem é (homeServices),
+ *                       estrutura (amenities), sobre (aboutParas), FAQ, CTA final.
+ * Seções fixas (novas): barra de aviso, acomodações, galeria, "onde estamos".
+ *                       Conteúdo no próprio arquivo — migrável ao admin depois.
+ */
+import { loadHomeData, type HomePreview } from '../../lib/localHomeData';
+
+interface Props { preview?: HomePreview }
+const { preview } = Astro.props as Props;
+
+const d = loadHomeData(preview);
+const {
+  homeServices, region, company, cities,
+  waUrl, biz, heroTitle, heroSubtitle, aboutParas,
+  steps, labels, show, ctaTitle, ctaSubtitle, ctaButton,
+  amenities, faq, empty, serviceHref,
+} = d;
+
+// E-mail de contato: usa biz.email se existir, senão o padrão do hotel.
+const email = (biz as any).email || 'reservas@hotelcajueiroguaruja.com.br';
+
+// Ícones de linha por amenidade (inner SVG injetado via set:html).
+const AICON: Record<string, string> = {
+  coffee: '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4.5"/><line x1="10" y1="2" x2="10" y2="4.5"/><line x1="14" y1="2" x2="14" y2="4.5"/>',
+  dinner: '<path d="M5 3v6a2 2 0 1 0 4 0V3"/><line x1="7" y1="9" x2="7" y2="21"/><path d="M17 3v18"/><path d="M17 3c-1.7 0-3 1.9-3 4.5S15.3 12 17 12"/>',
+  pool: '<path d="M2 16c1.5 0 1.5-1.5 3-1.5s1.5 1.5 3 1.5 1.5-1.5 3-1.5 1.5 1.5 3 1.5 1.5-1.5 3-1.5 1.5 1.5 3 1.5"/><path d="M2 11c1.5 0 1.5-1.5 3-1.5s1.5 1.5 3 1.5 1.5-1.5 3-1.5 1.5 1.5 3 1.5 1.5-1.5 3-1.5 1.5 1.5 3 1.5"/>',
+  ac: '<line x1="12" y1="2" x2="12" y2="22"/><line x1="4" y1="6.5" x2="20" y2="17.5"/><line x1="20" y1="6.5" x2="4" y2="17.5"/>',
+  wifi: '<path d="M2 8.8a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>',
+  parking: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V7h3.5a3 3 0 0 1 0 6H9"/>',
+  bed: '<path d="M2 4v16"/><path d="M2 9h16a3 3 0 0 1 3 3v8"/><path d="M2 16h19"/><path d="M6 9V6h6v3"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>',
+  invoice: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/>',
+  beach: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/>',
+  port: '<circle cx="12" cy="4.5" r="2.5"/><line x1="12" y1="7" x2="12" y2="22"/><path d="M5 13H2a10 10 0 0 0 20 0h-3"/>',
+  fridge: '<rect x="5.5" y="2.5" width="13" height="19" rx="2"/><line x1="5.5" y1="10" x2="18.5" y2="10"/><line x1="8.5" y1="6" x2="8.5" y2="7.5"/><line x1="8.5" y1="13" x2="8.5" y2="15"/>',
+  linen: '<rect x="3" y="6.5" width="18" height="4.5" rx="1.2"/><rect x="3" y="13" width="18" height="4.5" rx="1.2"/><line x1="7" y1="6.5" x2="7" y2="11"/><line x1="7" y1="13" x2="7" y2="17.5"/>',
+  clean: '<path d="m12 3 1.7 4.8L18.5 9.5l-4.8 1.7L12 16l-1.7-4.8L5.5 9.5l4.8-1.7L12 3Z"/><path d="M18.5 14.5v3M17 16h3"/>',
+  default: '<polyline points="20 6 9 17 4 12"/>',
+};
+
+// SVG do ícone do WhatsApp (reutilizado nos botões).
+const WA = '<path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.7 1.1 1.4 1.7.9.8 1.7 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.7-.1 1.3Z"/>';
+
+// Ícones de linha por tipo de público (cards "para quem é"), por índice:
+// 0 Viagens corporativas (maleta) · 1 Projetos e obras (capacete) · 2 Relocação/longa permanência (casa).
+const SVCICON = [
+  // Lucide "plane" — Viagens corporativas (✈️)
+  '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+  // Lucide "hard-hat" — Projetos e obras (🏗️)
+  '<path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/>',
+  // Lucide "luggage" — Relocação e longa permanência (🧳)
+  '<path d="M6 20a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2"/><path d="M8 18V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v14"/><path d="M10 20h4"/><circle cx="16" cy="20" r="2"/><circle cx="8" cy="20" r="2"/>',
+];
+
+const cityName = cities[0]?.name || region || 'Guarujá';
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Hotel Cajueiro ' + (biz.address || ''))}`;
+---
+
+<!-- A barra de aviso fica no Header.astro (acima da nav, global). -->
+
+<!-- ===================== HERO ===================== -->
+<section class="bg-bg">
+  <div class="container-x pt-12 md:pt-16 pb-14 md:pb-20">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-5">{cityName || 'Guarujá'} e Santos</p>
+        <h1 class="font-display text-ink text-3xl md:text-4xl lg:text-[48px] font-bold leading-[1.05] tracking-tight">{heroTitle}</h1>
+        {heroSubtitle && <p class="text-lg leading-relaxed text-ink-muted mt-6 max-w-xl">{heroSubtitle}</p>}
+        <div class="flex flex-col items-start gap-4 mt-8">
+          {waUrl && (
+            <a href={waUrl} target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2.5 min-h-[45px] px-7 rounded-full bg-primary text-bg text-base font-semibold uppercase tracking-wide no-underline shadow-[0_16px_30px_-14px_rgba(85,112,58,.75)] hover:brightness-95 transition-[filter]">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={WA}></svg>
+              {ctaButton}
+            </a>
+          )}
+          <span class="text-sm text-ink-faint">Prefere e-mail? <a href={`mailto:${email}`} class="text-primary font-semibold no-underline hover:underline">{email}</a></span>
+        </div>
+      </div>
+      <div class="relative">
+        <img src="/images/hero-tombo.jpg" alt={`Fachada do ${company} no ${cityName}`} width="800" height="600" loading="eager"
+          class="w-full h-72 md:h-96 lg:h-[500px] object-cover rounded-lg shadow-[0_34px_64px_-30px_rgba(60,45,25,.55)]" />
+        <!-- Card flutuante: avaliação Google -->
+        <div class="absolute hidden md:block left-3 top-4 md:-left-5 md:top-8 bg-surface rounded-md shadow-[0_20px_40px_-18px_rgba(40,35,20,.5)] px-4 py-3.5">
+          <p class="flex items-center gap-2">
+            <svg class="w-5 h-5 shrink-0 text-cat-terracota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9"/></svg>
+            <span class="text-base font-bold text-ink">Sinta-se em casa!</span>
+          </p>
+        </div>
+        <!-- Card flutuante: localização -->
+        <div class="absolute hidden md:block right-3 bottom-4 md:-right-5 md:bottom-10 bg-primary rounded-md shadow-[0_20px_40px_-18px_rgba(40,45,28,.6)] px-5 py-3.5">
+          <p class="text-base font-bold text-bg">Praia do Tombo</p>
+          <p class="text-[13px] text-[#cfdcbb] mt-0.5">A 100m do mar, no {cityName}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{empty ? (
+  <div class="container-x py-32 text-center">
+    <p class="text-xs uppercase tracking-wide text-ink-faint mb-3">comece aqui</p>
+    <h2 class="font-display text-3xl text-ink mb-3">Seu site local ainda está vazio.</h2>
+    <p class="text-ink-muted">Cadastre serviços e localidades em <a href="/admin/local/services" class="text-primary underline underline-offset-4">Site Local</a> e publique pra gerar as páginas.</p>
+  </div>
+) : (
+  <>
+    <!-- ===================== COMO RESERVAR ===================== -->
+    {show('comoFunciona') && (
+      <section id="reservar" class="bg-surface scroll-mt-24">
+        <div class="container-x py-16 md:py-24">
+          <div class="text-center max-w-2xl mx-auto mb-12 md:mb-14">
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">{labels.comoFunciona.eyebrow}</p>
+            <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink">{labels.comoFunciona.title}</h2>
+          </div>
+          <ol class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {steps.map((s, i) => (
+              <li>
+                <div class="flex items-center gap-4 mb-4">
+                  <span class={`inline-flex items-center justify-center w-12 h-12 rounded-full text-xl font-bold ${i === steps.length - 1 ? 'bg-primary text-bg' : 'bg-cat-terracota/15 text-cat-terracota'}`}>{s.n}</span>
+                  <span class="flex-1 h-px bg-rule"></span>
+                </div>
+                <h3 class="text-lg font-bold text-ink mb-2.5">{s.t}</h3>
+                <p class="text-ink-muted leading-relaxed">{s.d}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )}
+
+    <!-- ===================== PARA QUEM É ===================== -->
+    <section id="para-quem" class="bg-elev scroll-mt-24">
+      <div class="container-x py-16 md:py-24">
+        <div class="max-w-xl mb-12">
+          <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">{labels.servicos.eyebrow}</p>
+          <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink mb-4">{labels.servicos.title}</h2>
+          <p class="text-ink-muted leading-relaxed">O {company} atende empresas e profissionais em diferentes necessidades de hospedagem, da diária à longa permanência.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {homeServices.map((svc, i) => (
+            <a href={serviceHref(svc)} class="group flex flex-col bg-surface rounded-lg p-7 no-underline shadow-[0_22px_44px_-30px_rgba(60,45,25,.45)] hover:-translate-y-1 transition-transform duration-300">
+              <div class="w-14 h-14 rounded-xl bg-cat-terracota/10 flex items-center justify-center mb-6">
+                <svg class="w-7 h-7 text-cat-terracota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={SVCICON[i % 3]}></svg>
+              </div>
+              <h3 class="font-display text-xl font-bold text-ink leading-tight mb-2.5">{svc.title}</h3>
+              {svc.shortDescription && <p class="text-sm text-ink-muted leading-relaxed flex-1">{svc.shortDescription}</p>}
+              {svc.tag && <span class="inline-flex self-start items-center mt-5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wide bg-cat-terracota/12 text-cat-terracota">{svc.tag}</span>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ACOMODAÇÕES (fixo) ===================== -->
+    <section id="acomodacoes" class="bg-surface scroll-mt-24">
+      <div class="container-x py-16 md:py-24">
+        <div class="max-w-xl mb-12">
+          <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">Acomodações</p>
+          <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink mb-4">Quartos pensados para descansar de verdade</h2>
+          <p class="text-ink-muted leading-relaxed">Todas as acomodações com ar-condicionado, enxoval completo, Wi-Fi e frigobar. Montamos a configuração ideal para a sua equipe, de quartos individuais a triplos.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-bg border border-border rounded-lg overflow-hidden shadow-[0_22px_44px_-32px_rgba(60,45,25,.4)] hover:-translate-y-1 transition-transform duration-300">
+            <img src="/images/pkg-corporativa.jpg" alt="Suíte com varanda" width="600" height="400" loading="lazy" class="w-full h-50 object-cover" style="height:200px" />
+            <div class="p-6">
+              <h3 class="text-lg font-bold text-ink mb-2">Suíte com varanda</h3>
+              <p class="text-sm text-ink-muted leading-relaxed">Quarto amplo com varanda, cama de casal, ar-condicionado, TV e frigobar. Mais espaço para estadias mais longas.</p>
+            </div>
+          </div>
+          <div class="bg-bg border border-border rounded-lg overflow-hidden shadow-[0_22px_44px_-32px_rgba(60,45,25,.4)] hover:-translate-y-1 transition-transform duration-300">
+            <img src="/images/pkg-equipes.jpg" alt="Quarto standard" width="600" height="400" loading="lazy" class="w-full object-cover" style="height:200px" />
+            <div class="p-6">
+              <h3 class="text-lg font-bold text-ink mb-2">Quarto standard</h3>
+              <p class="text-sm text-ink-muted leading-relaxed">Camas confortáveis, ar-condicionado e enxoval completo. Prático e silencioso para quem trabalha o dia todo e precisa render no dia seguinte.</p>
+            </div>
+          </div>
+          <div class="bg-[#2C3A20] rounded-lg p-8 flex flex-col">
+            <div class="w-12 h-12 rounded-md bg-cat-ocre/15 flex items-center justify-center mb-5">
+              <svg class="w-6 h-6 text-cat-ocre" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={AICON.bed}></svg>
+            </div>
+            <h3 class="text-lg font-bold text-[#F4EEDD] mb-2.5">Configuração para equipes</h3>
+            <p class="text-sm leading-relaxed text-[#b9bea9] mb-6 flex-1">Montamos os quartos conforme a sua operação: individuais, duplos ou triplos, próximos uns dos outros. Diga o tamanho da equipe e o período, e cuidamos do resto.</p>
+            {waUrl && <a href={waUrl} target="_blank" rel="noopener noreferrer" class="inline-flex self-start items-center gap-2 min-h-[37px] px-5 rounded-full border border-cat-ocre text-cat-ocre text-sm font-semibold uppercase tracking-wide no-underline">{ctaButton} →</a>}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ESTRUTURA / AMENIDADES ===================== -->
+    {amenities.length > 0 && (
+      <section id="estrutura" class="bg-bg scroll-mt-24">
+        <div class="container-x py-16 md:py-24">
+          <div class="mb-11">
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">estrutura</p>
+            <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink">O que o hotel oferece</h2>
+          </div>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {amenities.map((a) => (
+              <li class="flex items-center gap-3.5 bg-surface rounded-md px-5 py-4 shadow-[0_1px_2px_rgba(60,45,25,.06)]">
+                <svg class="w-5 h-5 shrink-0 text-cat-terracota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={AICON[a.icon] || AICON.default}></svg>
+                <span class="text-sm font-medium text-ink leading-snug">{a.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <!-- ===================== GALERIA (fixo) ===================== -->
+    <section id="galeria" class="bg-elev scroll-mt-24">
+      <div class="container-x py-16 md:py-24">
+        <div class="max-w-xl mb-11">
+          <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">Galeria</p>
+          <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink mb-4">O que está incluso, em imagens</h2>
+          <p class="text-ink-muted leading-relaxed">Piscina, café da manhã, quartos e a poucos passos da Praia do Tombo. O mesmo padrão de lazer que a sua equipe aproveita na estadia de trabalho.</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 auto-rows-[150px] md:auto-rows-[200px] gap-3.5">
+          {[
+            { src: '/images/hero-cajueiro.jpg', cap: 'Piscina com bar', cls: 'col-span-2 row-span-2' },
+            { src: '/images/pkg-jantar.jpg', cap: 'Café da manhã artesanal', cls: '' },
+            { src: '/images/pkg-praia.jpg', cap: 'Praia do Tombo, a 100 m', cls: '' },
+            { src: '/images/hero-home.jpg', cap: 'A orla da Praia do Tombo', cls: 'col-span-2' },
+            { src: '/images/hero-tombo.jpg', cap: 'Chegada, na Guaiúba', cls: '' },
+            { src: '/images/pkg-corporativa.jpg', cap: 'Suíte com varanda', cls: '' },
+            { src: '/images/pkg-equipes.jpg', cap: 'Quartos para equipes', cls: 'col-span-2' },
+          ].map((g, i) => (
+            <button type="button" data-gallery-open={i} aria-label={`Ampliar foto ${i + 1}`}
+              class={`group block m-0 p-0 border-0 bg-transparent cursor-pointer rounded-md overflow-hidden shadow-[0_18px_40px_-28px_rgba(60,45,25,.5)] ${g.cls}`}>
+              <img src={g.src} alt={g.cap} loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SOBRE + ONDE ESTAMOS ===================== -->
+    {show('quemSomos') && (biz.aboutTitle || aboutParas.length > 0) && (
+      <section id="sobre" class="bg-bg scroll-mt-24">
+        <div class="container-x py-16 md:py-24">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-14 items-start">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">a empresa</p>
+              <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink mb-6">{biz.aboutTitle || 'Sobre nós'}</h2>
+              {aboutParas.map((p) => <p class="text-ink-muted leading-relaxed mb-4">{p}</p>)}
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mt-8 mb-4.5" style="margin-bottom:1rem">Onde estamos</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                {[
+                  ['Praia do Tombo', 'a 100 m, entre Astúrias e Guaiúba'],
+                  ['Enseada e Pitangueiras', 'praias vizinhas, poucos minutos'],
+                  ['Santos, Margem Direita', 'a uma travessia, via balsa ou rodovia'],
+                  ['Porto de Santos', 'operações nas duas margens'],
+                ].map(([t, s]) => (
+                  <div class="flex gap-3 items-start">
+                    <span class="w-2.5 h-2.5 rounded-full bg-cat-terracota mt-1.5 shrink-0"></span>
+                    <div><div class="text-[15px] font-bold text-ink">{t}</div><div class="text-[13.5px] text-ink-faint">{s}</div></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <aside id="como-chegar" class="scroll-mt-24">
+              <div class="rounded-lg overflow-hidden shadow-[0_30px_60px_-30px_rgba(60,45,25,.55)] mb-5">
+                <img src="/images/hero-tombo.jpg" alt={`Fachada do ${company}`} width="800" height="600" loading="lazy" class="w-full object-cover" style="height:300px" />
+              </div>
+              <div class="bg-surface border border-border rounded-lg p-7 shadow-[0_22px_44px_-30px_rgba(60,45,25,.4)]">
+                <p class="text-[11px] uppercase tracking-wide font-bold text-ink-faint mb-5">Para empresas</p>
+                <div class="flex flex-col gap-4 mb-6">
+                  <div class="flex items-center gap-3.5"><svg class="w-5 h-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={AICON.invoice}></svg><span class="text-[15px] text-ink">Faturamento por CNPJ</span></div>
+                  <div class="flex items-center gap-3.5"><svg class="w-5 h-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={AICON.clock}></svg><span class="text-[15px] text-ink">Recepção 24h e flexibilidade de período</span></div>
+                  <div class="flex items-center gap-3.5"><svg class="w-5 h-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-[15px] text-ink">Proposta sob medida, sem compromisso</span></div>
+                </div>
+                {biz.address && (
+                  <div class="flex gap-2.5 items-start mb-5 pt-5 border-t border-border">
+                    <svg class="w-[18px] h-[18px] mt-0.5 shrink-0 text-cat-terracota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span class="text-sm leading-relaxed text-ink-muted">{biz.address}</span>
+                  </div>
+                )}
+                <div class="flex flex-col gap-3">
+                  {waUrl && (
+                    <a href={waUrl} target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2.5 min-h-[44px] rounded-full bg-primary text-bg text-[15px] font-semibold uppercase tracking-wide no-underline hover:brightness-95 transition-[filter]">
+                      <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor" set:html={WA}></svg>{ctaButton}
+                    </a>
+                  )}
+                  <a href={mapHref} target="_blank" rel="noopener" class="w-full inline-flex items-center justify-center gap-2 min-h-[44px] rounded-full bg-surface border border-border text-ink text-sm font-semibold uppercase tracking-wide no-underline hover:bg-elev transition-colors">
+                    <svg class="w-4 h-4 text-cat-terracota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Ver no mapa
+                  </a>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- ===================== FAQ ===================== -->
+    {faq.length > 0 && (
+      <section class="bg-surface">
+        <div class="container-x py-16 md:py-24 max-w-3xl">
+          <div class="mb-10">
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">dúvidas frequentes</p>
+            <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink">Perguntas frequentes</h2>
+          </div>
+          <div class="flex flex-col gap-3">
+            {faq.map((f) => (
+              <details class="group bg-bg border border-border rounded-md overflow-hidden">
+                <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer text-base font-semibold text-ink list-none [&::-webkit-details-marker]:hidden">
+                  <span>{f.q}</span>
+                  <svg class="w-4 h-4 shrink-0 text-cat-terracota transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p class="px-6 pb-5 text-[15px] text-ink-muted leading-relaxed">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- ===================== CTA FINAL ===================== -->
+    {show('ctaFinal') && waUrl && (
+      <section id="contato" class="relative isolate overflow-hidden bg-primary scroll-mt-24">
+        <span aria-hidden="true" class="pointer-events-none absolute -left-24 -top-24 w-80 h-80 rounded-full border-[50px] border-white/[0.06]"></span>
+        <span aria-hidden="true" class="pointer-events-none absolute -right-16 -bottom-24 w-64 h-64 rounded-full bg-cat-terracota/20"></span>
+        <div class="container-x py-16 md:py-24 max-w-3xl text-center relative">
+          <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight text-bg leading-tight mb-4">{ctaTitle}</h2>
+          <p class="text-lg text-[#dde6ce] leading-relaxed mb-9 max-w-xl mx-auto">{ctaSubtitle}</p>
+          <div class="flex flex-col items-center gap-4">
+            <a href={waUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 min-h-[45px] px-8 rounded-full bg-surface text-[#3c5128] text-base font-bold uppercase tracking-wide no-underline shadow-[0_16px_30px_-14px_rgba(0,0,0,.4)] hover:brightness-95 transition-[filter]">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" set:html={WA}></svg>{ctaButton}
+            </a>
+            <span class="text-sm text-[#dde6ce]">Prefere e-mail? <a href={`mailto:${email}`} class="text-bg font-semibold no-underline hover:underline">{email}</a></span>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- ===================== LIGHTBOX DA GALERIA ===================== -->
+    <div id="gallery-lightbox" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/90 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Visualizador de imagens">
+      <button type="button" id="gallery-close" aria-label="Fechar" class="absolute top-4 right-4 w-11 h-11 inline-flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <button type="button" id="gallery-prev" aria-label="Imagem anterior" class="absolute left-3 md:left-6 w-12 h-12 inline-flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors">
+        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <img id="gallery-img" src="" alt="" class="max-h-[88vh] max-w-[92vw] object-contain rounded-md shadow-2xl select-none" />
+      <button type="button" id="gallery-next" aria-label="Próxima imagem" class="absolute right-3 md:right-6 w-12 h-12 inline-flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors">
+        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+      <span id="gallery-counter" class="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium"></span>
+    </div>
+    <script is:inline>
+      (function () {
+        var lb = document.getElementById('gallery-lightbox');
+        if (!lb) return;
+        var imgEl = document.getElementById('gallery-img');
+        var counter = document.getElementById('gallery-counter');
+        var btns = Array.prototype.slice.call(document.querySelectorAll('[data-gallery-open]'));
+        if (!btns.length) return;
+        var srcs = btns.map(function (b) { var im = b.querySelector('img'); return im ? im.getAttribute('src') : ''; });
+        var alts = btns.map(function (b) { var im = b.querySelector('img'); return im ? (im.getAttribute('alt') || '') : ''; });
+        var idx = 0;
+        function render() {
+          imgEl.setAttribute('src', srcs[idx]);
+          imgEl.setAttribute('alt', alts[idx]);
+          if (counter) counter.textContent = (idx + 1) + ' / ' + srcs.length;
+        }
+        function show(i) { idx = (i + srcs.length) % srcs.length; render(); }
+        function openAt(i) { show(i); lb.classList.remove('hidden'); lb.classList.add('flex'); document.body.style.overflow = 'hidden'; }
+        function close() { lb.classList.add('hidden'); lb.classList.remove('flex'); document.body.style.overflow = ''; }
+        btns.forEach(function (b, i) { b.addEventListener('click', function () { openAt(i); }); });
+        var prev = document.getElementById('gallery-prev');
+        var next = document.getElementById('gallery-next');
+        var closeBtn = document.getElementById('gallery-close');
+        if (prev) prev.addEventListener('click', function (e) { e.stopPropagation(); show(idx - 1); });
+        if (next) next.addEventListener('click', function (e) { e.stopPropagation(); show(idx + 1); });
+        if (closeBtn) closeBtn.addEventListener('click', close);
+        lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+        document.addEventListener('keydown', function (e) {
+          if (lb.classList.contains('hidden')) return;
+          if (e.key === 'Escape') close();
+          else if (e.key === 'ArrowLeft') show(idx - 1);
+          else if (e.key === 'ArrowRight') show(idx + 1);
+        });
+        var startX = null;
+        lb.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+        lb.addEventListener('touchend', function (e) {
+          if (startX === null) return;
+          var dx = e.changedTouches[0].clientX - startX;
+          if (Math.abs(dx) > 40) { show(dx < 0 ? idx + 1 : idx - 1); }
+          startX = null;
+        }, { passive: true });
+      })();
+    </script>
+  </>
+)}

@@ -1,0 +1,33 @@
+{
+  "name": "Hotel Cajueiro",
+  "description": "Hospedagem corporativa no Guarujá e Santos: conforto de hotel de praia para sua equipe, com café da manhã, jantar opcional e faturamento para empresas.",
+  "url": "https://www.hotelcajueiroguaruja.com.br",
+  "author": "Hotel Cajueiro",
+  "language": "pt-BR",
+  "logo": "/logo-cajueiro.avif",
+  "logoHeight": 55,
+  "theme": {
+    "primary": "#55703A",
+    "dark": "#3C5128",
+    "fontDisplay": "Cormorant Garamond",
+    "fontBody": "DM Sans",
+    "accent": "#55703A"
+  },
+  "social": {
+    "instagram": "",
+    "twitter": "",
+    "facebook": "",
+    "youtube": ""
+  },
+  "contact": {
+    "email": "reservas@hotelcajueiroguaruja.com.br",
+    "phone": "(13) 3324-1331",
+    "address": "Rua Avedis Simonian, 1177, Guaiúba, Guarujá/SP",
+    "name": "Hotel Cajueiro"
+  },
+  "legal": {
+    "terms_last_updated": "",
+    "privacy_last_updated": ""
+  },
+  "menuHoverEnabled": true
+}
