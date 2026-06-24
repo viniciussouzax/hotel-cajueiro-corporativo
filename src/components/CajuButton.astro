@@ -1,6 +1,6 @@
 ---
 /**
- * CajuButton.astro — botão padrão da marca (caju + laranja #db3d26).
+ * CajuButton.astro — botão padrão da marca (caju + laranja #cf3a23, AA com texto creme).
  * - Padrão (auto-width): caju sobreposto à esquerda do botão. Usado na nav e nos CTAs.
  * - fullWidth: botão de largura total (ex.: dentro de formulário), com o caju dentro.
  * - submit: renderiza <button type="submit">; senão <a> que abre o modal (data-contact-open),
@@ -15,8 +15,8 @@ interface Props {
 }
 const { href, label, class: cls = '', submit = false, fullWidth = false } = Astro.props as Props;
 const btn = fullWidth
-  ? 'w-full inline-flex items-center justify-center gap-2.5 min-h-[48px] px-6 rounded-[20px] bg-[#db3d26] text-bg text-[15px] font-semibold uppercase tracking-wide no-underline hover:brightness-95 transition-[filter]'
-  : 'inline-flex items-center min-h-[36px] pl-7 pr-5 rounded-[20px] bg-[#db3d26] text-bg text-[13px] md:text-sm font-semibold uppercase tracking-wide no-underline hover:brightness-95 transition-[filter] whitespace-nowrap';
+  ? 'w-full inline-flex items-center justify-center gap-2.5 min-h-[48px] px-6 rounded-[20px] bg-[#cf3a23] text-bg text-[15px] font-semibold uppercase tracking-wide no-underline hover:brightness-95 transition-[filter]'
+  : 'inline-flex items-center min-h-[36px] pl-7 pr-5 rounded-[20px] bg-[#cf3a23] text-bg text-[13px] md:text-sm font-semibold uppercase tracking-wide no-underline hover:brightness-95 transition-[filter] whitespace-nowrap';
 const cajuCls = fullWidth
   ? 'h-8 w-auto -scale-x-100 pointer-events-none select-none'
   : 'h-10 md:h-[3.24rem] w-auto -mr-3 md:-mr-4 relative z-10 pointer-events-none select-none -scale-x-100 translate-x-2.5 md:translate-x-2';

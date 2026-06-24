@@ -23,7 +23,7 @@
     /* ===== Ink (texto) — marrom-tinta quente; usado só em TEXTO, nunca como fundo ===== */
     --c-ink:           38  35  28;    /* #26231C */
     --c-ink-muted:    104  98  86;    /* #686256 */
-    --c-ink-faint:    150 142 128;    /* #968E80 */
+    --c-ink-faint:    120 112  89;    /* #787059 (AA em fundo claro) */
 
     /* ===== Primary — verde-folha do Cajueiro ===== */
     --c-primary:       85 112  58;   /* #55703A verde-oliva (AA em branco) */
@@ -31,7 +31,7 @@
 
     /* ===== 5 CATEGORIA COLORS (OKLCH committed) — SAME PALETTE =====
        Funcionam tanto em light quanto dark — só o contraste muda. */
-    --cat-terracota:    192  86  47;   /* #C0562F terracota (design) */
+    --cat-terracota:    168  66  28;   /* #A8421C terracota (AA) */
     --cat-azul-tinta:    52  88 162;   /* oklch(42% 0.15 258) — Configuração */
     --cat-oliva:         95 116  54;   /* oklch(48% 0.10 130) — Conteúdo */
     --cat-ocre:         200 162  74;   /* #C8A24A ocre (design) */
