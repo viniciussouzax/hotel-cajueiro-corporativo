@@ -14,6 +14,7 @@
         "@tailwindcss/typography": "^0.5.15",
         "astro": "^5.1.0",
         "fast-xml-parser": "^5.5.9",
+        "intl-tel-input": "^29.1.1",
         "jszip": "^3.10.1",
         "lucide-react": "^0.468.0",
         "marked": "^15.0.0",
@@ -599,6 +600,8 @@
     "import-meta-resolve": ["import-meta-resolve@4.2.0", "", {}, "sha512-Iqv2fzaTQN28s/FwZAoFq0ZSs/7hMAHJVX+w8PZl3cY19Pxk6jFFalxQoIfW2826i/fDLXv8IiEZRIT0lDuWcg=="],
 
     "inherits": ["inherits@2.0.4", "", {}, "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ=="],
+
+    "intl-tel-input": ["intl-tel-input@29.1.1", "", {}, "sha512-Joaswth+mOoaGm4htL/xvgcQufjcNrdHIdVkTOLJxbfjwLw5mrhL8GBDrUfPePvvuc2IJmoiWXyJ1TJn1udoNw=="],
 
     "iron-webcrypto": ["iron-webcrypto@1.2.1", "", {}, "sha512-feOM6FaSr6rEABp/eDfVseKyTMDt+KGpeB35SkVn9Tyn0CqvVsY3EwI0v5i8nMHyJnzCIQf7nsy3p41TPkJZhg=="],
 

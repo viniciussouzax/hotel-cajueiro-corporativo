@@ -44,8 +44,8 @@ const { overlay = false } = Astro.props as { overlay?: boolean };
     {waUrl && (
       <div class="flex items-center shrink-0">
         <img src="/images/caju.avif" alt="" aria-hidden="true" class="h-10 md:h-[3.24rem] w-auto -mr-3 md:-mr-4 relative z-10 pointer-events-none select-none -scale-x-100 translate-x-2.5 md:translate-x-2" />
-        <a href={waUrl} target="_blank" rel="noopener noreferrer"
-          class="inline-flex items-center min-h-[36px] pl-7 pr-5 rounded-full bg-[#db3d26] text-bg text-sm font-semibold uppercase tracking-wide no-underline hover:brightness-95 transition-[filter]">
+        <a href={waUrl} data-contact-open target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center min-h-[36px] pl-7 pr-5 rounded-[20px] bg-[#db3d26] text-bg text-sm font-semibold uppercase tracking-wide no-underline hover:brightness-95 transition-[filter]">
           Contato
         </a>
       </div>

@@ -66,9 +66,10 @@ export default {
         'prose-lg': '68ch',
       },
       borderRadius: {
-        DEFAULT: '8px',
-        'md': '12px',
-        'lg': '16px',
+        DEFAULT: '20px',
+        'md': '20px',
+        'lg': '20px',
+        'xl': '20px',
       },
     },
   },

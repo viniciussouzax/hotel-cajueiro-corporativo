@@ -19,6 +19,7 @@
         "@tailwindcss/typography": "^0.5.15",
         "astro": "^5.1.0",
         "fast-xml-parser": "^5.5.9",
+        "intl-tel-input": "^29.1.1",
         "jszip": "^3.10.1",
         "lucide-react": "^0.468.0",
         "marked": "^15.0.0",

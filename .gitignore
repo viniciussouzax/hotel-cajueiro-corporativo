@@ -9,3 +9,5 @@ dist/
 
 # Preview tooling (local, machine-specific)
 .claude/
+
+.vercel

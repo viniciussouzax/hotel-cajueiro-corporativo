@@ -93,7 +93,32 @@ function toAbsoluteUrl(path: string, base: string): string {
     return path; // fallback: path relativo (não derruba o build)
   }
 }
-const socialImage = toAbsoluteUrl(image, siteUrl);
+const socialImage = toAbsoluteUrl(image || '/images/hero-cajueiro.jpg', siteUrl);
+const canonicalUrl = Astro.url.href;
+
+// Dados estruturados (Schema.org / JSON-LD) — ajudam indexação e rich results.
+const biz = readData('localBusiness.json', {}) as any;
+const bizPhone = String(biz.phone || siteConfig.contact?.phone || '').replace(/\D/g, '');
+const socialLinks = Object.values(siteConfig.social || {}).filter((u: any) => typeof u === 'string' && u.trim());
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LodgingBusiness',
+  name: siteConfig.name,
+  description: siteConfig.description,
+  url: siteUrl || canonicalUrl,
+  ...(socialImage ? { image: socialImage } : {}),
+  ...(bizPhone ? { telephone: `+55${bizPhone}` } : {}),
+  ...(biz.email ? { email: biz.email } : {}),
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Rua Avedis Simonian, 1177, Guaiúba',
+    addressLocality: 'Guarujá',
+    addressRegion: 'SP',
+    addressCountry: 'BR',
+  },
+  ...(socialLinks.length ? { sameAs: socialLinks } : {}),
+};
 ---
 
 <!DOCTYPE html>
@@ -104,6 +129,12 @@ const socialImage = toAbsoluteUrl(image, siteUrl);
   <title>{formattedTitle}</title>
   <meta name="description" content={description} />
   <link rel="icon" href={siteConfig.favicon || '/favicon.svg'} />
+  <link rel="apple-touch-icon" href={siteConfig.favicon || '/favicon-caju.png'} />
+  <link rel="canonical" href={canonicalUrl} />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large" />
+  <meta name="author" content={siteConfig.author || siteConfig.name} />
+  <meta name="theme-color" content={siteConfig.theme?.primary || '#55703A'} />
   {font.href && <link rel="stylesheet" href={font.href} />}
 
   {gscVerificationTag && (
@@ -112,16 +143,25 @@ const socialImage = toAbsoluteUrl(image, siteUrl);
       : <meta name="google-site-verification" content={gscVerificationTag} />
   )}
 
+  <!-- Open Graph (Facebook, WhatsApp, LinkedIn, etc.) -->
   <meta property="og:type" content={type} />
+  <meta property="og:site_name" content={siteConfig.name} />
+  <meta property="og:locale" content={(siteConfig.language || 'pt-BR').replace('-', '_')} />
   <meta property="og:title" content={formattedTitle} />
   <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalUrl} />
   {socialImage && <meta property="og:image" content={socialImage} />}
-  <meta property="og:url" content={Astro.url} />
+  {socialImage && <meta property="og:image:alt" content={formattedTitle} />}
 
+  <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={formattedTitle} />
   <meta name="twitter:description" content={description} />
   {socialImage && <meta name="twitter:image" content={socialImage} />}
+  {socialImage && <meta name="twitter:image:alt" content={formattedTitle} />}
+
+  <!-- Dados estruturados (Schema.org) -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 
   <HeadPlugins />
 </head>

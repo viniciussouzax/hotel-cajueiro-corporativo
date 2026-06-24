@@ -6,6 +6,7 @@
   "language": "pt-BR",
   "logo": "/logo-cajueiro.avif",
   "logoHeight": 55,
+  "favicon": "/favicon-caju.png",
   "theme": {
     "primary": "#55703A",
     "dark": "#3C5128",
