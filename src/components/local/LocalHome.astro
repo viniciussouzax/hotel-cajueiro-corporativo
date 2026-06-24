@@ -456,7 +456,7 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
               body: JSON.stringify({
-                _subject: 'Corporativo — Nova solicitação de contato (site Hotel Cajueiro)',
+                _subject: 'Corporativo - Nova solicitação de Orçamento (' + (nome || 'sem nome') + ')',
                 _template: 'table',
                 Modalidade: 'Corporativo',
                 Nome: nome,
