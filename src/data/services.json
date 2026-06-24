@@ -5,7 +5,7 @@
     "icon": "✈️",
     "color": "#55703A",
     "tag": "Curta duração",
-    "shortDescription": "Colaboradores em trânsito, com diárias e estadias curtas. Conforto e privacidade de hotel de praia, com café da manhã e opção de jantar.",
+    "shortDescription": "Para profissionais que vêm à região por alguns dias e buscam uma hospedagem confortável, bem localizada e sem complicações durante a agenda de trabalho.",
     "active": true
   },
   {
@@ -14,16 +14,16 @@
     "icon": "🏗️",
     "color": "#6E8B4E",
     "tag": "Semanas a meses",
-    "shortDescription": "Times alocados em projetos de média duração na região portuária. Faturamento por CNPJ, estacionamento e café cedo, sem a burocracia da locação.",
+    "shortDescription": "Para equipes envolvidas em operações, obras e projetos na região, com a estrutura necessária para transformar semanas ou meses de trabalho em uma estadia mais confortável.",
     "active": true
   },
   {
     "title": "Relocação e longa permanência",
     "slug": "relocacao-longa-permanencia",
-    "icon": "🧳",
+    "icon": "🌎",
     "color": "#8DA86D",
     "tag": "Longa permanência",
-    "shortDescription": "Profissionais em transferência ou onboarding que precisam de uma base confortável enquanto se instalam na Baixada Santista.",
+    "shortDescription": "Para profissionais em transição, transferência ou novos desafios na região, com a flexibilidade necessária para permanecer pelo tempo que for preciso.",
     "active": true
   }
 ]

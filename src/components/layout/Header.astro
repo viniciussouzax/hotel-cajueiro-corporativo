@@ -5,6 +5,7 @@
  * âncoras da home (/#secao), funcionando a partir de qualquer página.
  */
 import { readData } from '../../lib/readData';
+import CajuButton from '../CajuButton.astro';
 
 const siteConfig = readData('siteConfig.json');
 const biz = readData('localBusiness.json', {}) as any;
@@ -21,7 +22,7 @@ const { overlay = false } = Astro.props as { overlay?: boolean };
 ---
 
 <!-- Barra de aviso -->
-<div class="bg-[#2C3A20] text-[#F4EEDD]">
+<div class="bg-[#55703a] text-[#F4EEDD]">
   <div class="container-x py-2.5 flex items-center justify-center gap-2.5 text-center">
     <span class="text-[13px] md:text-sm font-medium leading-snug">{announcement} <strong class="font-bold text-cat-ocre">Pode comparar!</strong></span>
   </div>
@@ -41,14 +42,6 @@ const { overlay = false } = Astro.props as { overlay?: boolean };
       )}
     </a>
 
-    {waUrl && (
-      <div class="flex items-center shrink-0">
-        <img src="/images/caju.avif" alt="" aria-hidden="true" class="h-10 md:h-[3.24rem] w-auto -mr-3 md:-mr-4 relative z-10 pointer-events-none select-none -scale-x-100 translate-x-2.5 md:translate-x-2" />
-        <a href={waUrl} data-contact-open target="_blank" rel="noopener noreferrer"
-          class="inline-flex items-center min-h-[36px] pl-7 pr-5 rounded-[20px] bg-[#db3d26] text-bg text-sm font-semibold uppercase tracking-wide no-underline hover:brightness-95 transition-[filter]">
-          Contato
-        </a>
-      </div>
-    )}
+    {waUrl && <CajuButton href={waUrl} label="Orçamento" class="shrink-0" />}
   </div>
 </header>

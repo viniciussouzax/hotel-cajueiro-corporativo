@@ -15,7 +15,7 @@
       "description": "Hospedagem com conforto de praia em {cidade}, a minutos do trabalho nas duas margens do porto, pronta para render no dia seguinte."
     }
   ],
-  "ctaTitle": "Pronto para hospedar sua equipe com conforto?",
+  "ctaTitle": "Solicite um orçamento agora",
   "ctaSubtitle": "Receba uma proposta de hospedagem corporativa para o Guarujá, Santos e toda a Baixada Santista, sem compromisso.",
   "ctaButton": "Falar com consultor",
   "heroOverlay": { "enabled": true, "opacity": 72 },
@@ -41,7 +41,7 @@
   },
   "metrics": [],
   "amenities": [
-    { "icon": "coffee", "label": "Café da manhã artesanal" },
+    { "icon": "coffee", "label": "Café da manhã completo" },
     { "icon": "dinner", "label": "Jantar (meia ou pensão completa)" },
     { "icon": "pool", "label": "Piscina com bar" },
     { "icon": "wifi", "label": "Wi-Fi" },
