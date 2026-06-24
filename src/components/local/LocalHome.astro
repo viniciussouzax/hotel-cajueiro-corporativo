@@ -26,7 +26,7 @@ const {
 } = d;
 
 // E-mail de contato: usa biz.email se existir, senão o padrão do hotel.
-const email = (biz as any).email || 'reservas@hotelcajueiroguaruja.com.br';
+const email = (biz as any).email || 'corporativo@hotelcajueiroguaruja.com.br';
 const waNumber = String((biz as any).whatsapp || '').replace(/\D/g, '');
 
 // Ícones de linha por amenidade (inner SVG injetado via set:html).
@@ -399,7 +399,7 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
           </button>
           <h3 class="font-display text-2xl font-bold text-[#F4EEDD] mb-1.5">Fale com um consultor</h3>
-          <p class="text-sm text-[#cdd9bf] mb-6 leading-relaxed">Deixe seus dados e retornamos com uma proposta para a sua equipe.</p>
+          <p class="text-sm text-[#cdd9bf] mb-6 leading-relaxed">Deixe seus dados e um de nossos consultores irá te atender.</p>
           <form id="contact-form" class="flex flex-col gap-4" data-wa={waNumber}>
             <label class="flex flex-col gap-1.5">
               <span class="text-[13px] font-semibold text-[#F4EEDD]">Nome</span>
@@ -452,7 +452,7 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
           if (submitBtn) { submitBtn.setAttribute('disabled', ''); submitBtn.style.opacity = '0.7'; }
           // 1) Envia o contato por e-mail para o hotel (modalidade Corporativo)
           try {
-            await fetch('https://formsubmit.co/ajax/reservas@hotelcajueiroguaruja.com.br', {
+            await fetch('https://formsubmit.co/ajax/corporativo@hotelcajueiroguaruja.com.br', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
               body: JSON.stringify({
