@@ -15,7 +15,7 @@ const waUrl = waNumber
   : '';
 
 // Barra de aviso (global). Edite o texto aqui.
-const announcement = 'Hospedagem corporativa com tarifas e condições especiais. A melhor estrutura em comparação com as demais alternativas da região.';
+const announcement = 'Hospedagem corporativa sem fidelidade com tarifas e condições especiais. A melhor estrutura em comparação com as demais alternativas da região.';
 
 // overlay mantido para compatibilidade com BaseLayout (não usado nesta home).
 const { overlay = false } = Astro.props as { overlay?: boolean };
@@ -23,7 +23,7 @@ const { overlay = false } = Astro.props as { overlay?: boolean };
 
 <!-- Barra de aviso -->
 <div class="bg-[#55703a] text-[#F4EEDD]">
-  <div class="container-x py-2.5 flex items-center justify-center gap-2.5 text-center">
+  <div class="px-5 md:px-10 py-2.5 flex items-center justify-center gap-2.5 text-center">
     <span class="text-[13px] md:text-sm font-medium leading-snug">{announcement} <strong class="font-bold text-[#FFEAB0]">Pode comparar!</strong></span>
   </div>
 </div>

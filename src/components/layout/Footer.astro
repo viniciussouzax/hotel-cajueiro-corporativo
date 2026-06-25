@@ -1,32 +1,62 @@
 ---
 /**
- * Footer.astro — rodapé enxuto: apenas a barra de direitos + políticas
- * (verde-escuro #26331C). As colunas foram removidas a pedido.
+ * Footer.astro — rodapé estilo "logo · dados · ícones sociais"
+ * (verde-escuro #26331C), inspirado em referência aprovada.
+ * Desktop: logo à esquerda, dados centralizados, redes à direita (linha única).
+ * Mobile: tudo alinhado à esquerda e empilhado (logo → dados → ícones).
  */
 import { readData } from '../../lib/readData';
 
 const siteConfig = readData('siteConfig.json');
+const biz = readData('localBusiness.json', {}) as any;
 
 const year = new Date().getFullYear();
 const brand = siteConfig.name || 'Hotel Cajueiro';
-const socials: Array<[string, string]> = ([
-  ['Instagram', siteConfig.social?.instagram],
-  ['Facebook', siteConfig.social?.facebook],
-  ['YouTube', siteConfig.social?.youtube],
-  ['LinkedIn', siteConfig.social?.linkedin],
-].filter(([, href]) => href)) as any;
+const address = siteConfig.contact?.address || biz.address || '';
+const email = siteConfig.contact?.email || biz.email || 'corporativo@hotelcajueiroguaruja.com.br';
+const waNumber = String(biz.whatsapp || '').replace(/\D/g, '');
+
+// Linha única de dados, no formato da referência: Nome · CNPJ · Endereço · © Ano
+const infoLine = [brand, 'CNPJ 33.650.652/0001-20', address, `© ${year}`].filter(Boolean).join('  ·  ');
+
+// Ícones (inner SVG). WhatsApp é glifo preenchido; os demais são de linha.
+const ICON: Record<string, string> = {
+  instagram: '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>',
+  facebook: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+  youtube: '<rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z"/>',
+  whatsapp: '<path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.7 1.1 1.4 1.7.9.8 1.7 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.7-.1 1.3Z"/>',
+  email: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+};
+
+const socials: Array<{ k: string; href: string; label: string }> = [];
+if (siteConfig.social?.instagram) socials.push({ k: 'instagram', href: siteConfig.social.instagram, label: 'Instagram' });
+if (siteConfig.social?.facebook) socials.push({ k: 'facebook', href: siteConfig.social.facebook, label: 'Facebook' });
+if (siteConfig.social?.youtube) socials.push({ k: 'youtube', href: siteConfig.social.youtube, label: 'YouTube' });
+if (waNumber) socials.push({ k: 'whatsapp', href: `https://wa.me/${waNumber}`, label: 'WhatsApp' });
+socials.push({ k: 'email', href: `mailto:${email}`, label: 'E-mail' });
 ---
 
 <footer style="background:#26331C; color:#c3c8b6;">
   <div class="container-x">
-    <div class="flex items-center justify-between gap-5 flex-wrap" style="padding:26px 0;">
-      <span style="font-size:13px; color:#9aa089;">© {year} {brand} | CNPJ: 33.650.652/0001-20. Todos os direitos reservados.</span>
-      <div class="flex gap-6" style="font-size:13px;">
-        {socials.map(([label, href]: any) => (
-          <a href={href} target="_blank" rel="noopener noreferrer" class="no-underline text-[#bcc1ad] hover:text-[#C8A24A] transition-colors">{label}</a>
+    <div class="flex flex-col items-start gap-6 py-9 md:flex-row md:items-center md:justify-between md:gap-6 md:py-8">
+      <!-- Logo -->
+      <a href="/" class="shrink-0 no-underline" aria-label={brand}>
+        <img src={siteConfig.logo} alt={brand} style="height:34px; width:auto; filter:brightness(0) invert(1); opacity:.92;" />
+      </a>
+
+      <!-- Dados da empresa -->
+      <p class="text-left md:flex-1 md:text-center lg:whitespace-nowrap" style="margin:0; font-size:13px; line-height:1.65; color:#9aa089;">{infoLine}</p>
+
+      <!-- Redes (caixinhas com borda) -->
+      <div class="flex items-center gap-3 shrink-0">
+        {socials.map((s) => (
+          <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+             class="inline-flex items-center justify-center w-10 h-10 rounded-[10px] border border-[#3a4732] text-[#bcc1ad] hover:text-[#FFEAB0] hover:border-[#FFEAB0] transition-colors no-underline">
+            {s.k === 'whatsapp'
+              ? <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor" set:html={ICON.whatsapp} />
+              : <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={ICON[s.k]} />}
+          </a>
         ))}
-        <a href="/privacidade" class="no-underline text-[#bcc1ad] hover:text-[#C8A24A] transition-colors">Privacidade</a>
-        <a href="/termos" class="no-underline text-[#bcc1ad] hover:text-[#C8A24A] transition-colors">Termos</a>
       </div>
     </div>
   </div>
