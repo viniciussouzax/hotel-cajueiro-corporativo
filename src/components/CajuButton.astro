@@ -23,11 +23,11 @@ const cajuCls = fullWidth
 ---
 {fullWidth ? (
   submit
-    ? <button type="submit" class:list={[btn, cls]}><img src="/images/caju.avif" alt="" aria-hidden="true" class={cajuCls} />{label}</button>
-    : <a href={href} data-contact-open target="_blank" rel="noopener noreferrer" class:list={[btn, cls]}><img src="/images/caju.avif" alt="" aria-hidden="true" class={cajuCls} />{label}</a>
+    ? <button type="submit" class:list={[btn, cls]}><img src="/images/caju.avif" alt="" aria-hidden="true" width="126" height="104" class={cajuCls} />{label}</button>
+    : <a href={href} data-contact-open target="_blank" rel="noopener noreferrer" class:list={[btn, cls]}><img src="/images/caju.avif" alt="" aria-hidden="true" width="126" height="104" class={cajuCls} />{label}</a>
 ) : (
   <div class:list={['flex items-center', cls]}>
-    <img src="/images/caju.avif" alt="" aria-hidden="true" class={cajuCls} />
+    <img src="/images/caju.avif" alt="" aria-hidden="true" width="126" height="104" class={cajuCls} />
     {submit
       ? <button type="submit" class={btn}>{label}</button>
       : <a href={href} data-contact-open target="_blank" rel="noopener noreferrer" class={btn}>{label}</a>}
