@@ -7,7 +7,7 @@
 interface Props { n: number; note?: string; class?: string; style?: string; }
 const { n, note = '', class: cls = '', style = '' } = Astro.props as Props;
 ---
-<span class:list={['flex flex-col items-center justify-center bg-elev border-2 border-dashed border-cat-terracota/40 select-none overflow-hidden', cls]} style={style}>
+<span class:list={['flex flex-col items-center justify-center bg-surface border-2 border-dashed border-cat-terracota/40 select-none overflow-hidden', cls]} style={style}>
   <span class="text-4xl md:text-5xl font-bold text-cat-terracota leading-none">{n}</span>
   {note && <span class="mt-1.5 text-[11px] uppercase tracking-wide text-ink-faint px-3 text-center leading-tight">{note}</span>}
 </span>

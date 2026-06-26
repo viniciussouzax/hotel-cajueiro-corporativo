@@ -17,7 +17,7 @@ const email = siteConfig.contact?.email || biz.email || 'corporativo@hotelcajuei
 const waNumber = String(biz.whatsapp || '').replace(/\D/g, '');
 
 // Linha única de dados, no formato da referência: Nome · CNPJ · Endereço · © Ano
-const infoLine = [brand, 'CNPJ 33.650.652/0001-20', address, `© ${year}`].filter(Boolean).join('  ·  ');
+const infoLine = [brand, 'CNPJ 33.650.652/0001-20', `© ${year}`].filter(Boolean).join('  ·  ');
 
 // Ícones (inner SVG). WhatsApp é glifo preenchido; os demais são de linha.
 const ICON: Record<string, string> = {

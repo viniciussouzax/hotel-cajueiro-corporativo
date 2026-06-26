@@ -16,7 +16,7 @@
     }
   ],
   "ctaTitle": "Solicite um orçamento agora",
-  "ctaSubtitle": "Receba uma proposta de hospedagem corporativa para o Guarujá, Santos e toda a Baixada Santista, sem compromisso.",
+  "ctaSubtitle": "Solicite uma proposta corporativa sob medida, sem compromisso.",
   "ctaButton": "Falar com consultor",
   "heroOverlay": { "enabled": true, "opacity": 72 },
   "featuredServices": [
@@ -46,16 +46,15 @@
     { "icon": "pool", "label": "Piscina" },
     { "icon": "wifi", "label": "Wi-Fi" },
     { "icon": "laptop", "label": "Espaço de trabalho exclusivo" },
-    { "icon": "parking", "label": "Estacionamento gratuito na propriedade" },
-    { "icon": "parking", "label": "Estacionamento gratuito na rua" },
+    { "icon": "parking", "label": "Vagas rotativas para carros na propriedade" },
+    { "icon": "parking", "label": "Vagas gratuitas na rua em frente ao hotel" },
     { "icon": "ac", "label": "Ar-condicionado" },
     { "icon": "fridge", "label": "Frigobar" },
     { "icon": "bed", "label": "Suítes com ou sem varanda" },
-    { "icon": "closet", "label": "Guarda-roupa e cabides" },
-    { "icon": "blinds", "label": "Cortinas blackout" },
-    { "icon": "linen", "label": "Roupas de cama, toalhas e itens básicos" },
+    { "icon": "closet", "label": "Guarda-roupas" },
+    { "icon": "linen", "label": "Enxoval hoteleiro" },
     { "icon": "clock", "label": "Recepção 24h" },
-    { "icon": "clean", "label": "Limpeza adicional" }
+    { "icon": "clean", "label": "Limpeza diária" }
   ],
   "testimonials": [],
   "faq": [

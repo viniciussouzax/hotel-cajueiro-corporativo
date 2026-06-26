@@ -50,6 +50,7 @@ const AICON: Record<string, string> = {
   flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
   home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
   aid: '<path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h5v5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2z"/>',
+  route: '<circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/>',
   fridge: '<rect x="5.5" y="2.5" width="13" height="19" rx="2"/><line x1="5.5" y1="10" x2="18.5" y2="10"/><line x1="8.5" y1="6" x2="8.5" y2="7.5"/><line x1="8.5" y1="13" x2="8.5" y2="15"/>',
   linen: '<rect x="3" y="6.5" width="18" height="4.5" rx="1.2"/><rect x="3" y="13" width="18" height="4.5" rx="1.2"/><line x1="7" y1="6.5" x2="7" y2="11"/><line x1="7" y1="13" x2="7" y2="17.5"/>',
   clean: '<path d="m12 3 1.7 4.8L18.5 9.5l-4.8 1.7L12 16l-1.7-4.8L5.5 9.5l4.8-1.7L12 3Z"/><path d="M18.5 14.5v3M17 16h3"/>',
@@ -95,7 +96,7 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
         </div>
       </div>
       <div class="relative">
-        <ImgSlot n={1} note="hero" class="w-full h-72 md:h-96 lg:h-[500px] rounded-lg shadow-[0_34px_64px_-30px_rgba(60,45,25,.55)]" />
+        <img src="/images/1.jpg" alt="Fachada do Hotel Cajueiro" width="1000" height="667" loading="eager" class="w-full h-72 md:h-96 lg:h-[500px] object-cover rounded-lg shadow-[0_34px_64px_-30px_rgba(60,45,25,.55)]" />
         <!-- Card flutuante: avaliação Google -->
         <div class="absolute hidden left-3 top-4 md:-left-5 md:top-8 bg-surface rounded-md shadow-[0_20px_40px_-18px_rgba(40,35,20,.5)] px-4 py-3.5">
           <p class="flex items-center gap-2">
@@ -122,7 +123,7 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
 ) : (
   <>
     <!-- ===================== DIFERENCIAIS (logo abaixo da hero) ===================== -->
-    <section class="bg-surface border-y border-border">
+    <section class="bg-elev border-y border-border">
       <div class="container-x py-10 md:py-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
           {[
@@ -169,7 +170,7 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
     )}
 
     <!-- ===================== PARA QUEM É ===================== -->
-    <section id="para-quem" class="bg-elev scroll-mt-24">
+    <section id="para-quem" class="bg-bg scroll-mt-24">
       <div class="container-x py-16 md:py-24">
         <div class="max-w-xl mb-12">
           <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">{labels.servicos.eyebrow}</p>
@@ -192,44 +193,44 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
     </section>
 
     <!-- ===================== ACOMODAÇÕES (fixo) ===================== -->
-    <section id="acomodacoes" class="bg-surface scroll-mt-24">
+    <section id="acomodacoes" class="bg-elev scroll-mt-24">
       <div class="container-x py-16 md:py-24">
         <div class="max-w-xl mb-12">
           <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">Acomodações</p>
           <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink mb-4">Suítes pensadas para descansar de verdade</h2>
-          <p class="text-ink-muted leading-relaxed">Todas as acomodações com ar-condicionado, enxoval completo, Wi-Fi e frigobar. Montamos a configuração ideal para a sua equipe, com suítes de casal a tripla.</p>
+          <p class="text-ink-muted leading-relaxed">O hotel conta com 62 suítes, todas as acomodações com ar-condicionado, enxoval completo, Wi-Fi e frigobar. Montamos a configuração ideal para a sua equipe, com suítes de casal a tripla.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="bg-bg border border-border rounded-lg overflow-hidden shadow-[0_22px_44px_-32px_rgba(60,45,25,.4)] hover:-translate-y-1 transition-transform duration-300">
-            <ImgSlot n={2} note="Suíte com varanda" class="w-full" style="height:200px" />
+            <img src="/images/2.jpg" alt="Suíte com varanda" width="600" height="400" loading="lazy" class="w-full object-cover" style="height:200px" />
             <div class="p-6">
               <h3 class="text-lg font-bold text-ink mb-2">Suíte com varanda</h3>
               <p class="text-sm text-ink-muted leading-relaxed">Cama de casal e uma varanda exclusiva, para quem prefere mais espaço e um ambiente para relaxar ao fim do dia.</p>
             </div>
           </div>
           <div class="bg-bg border border-border rounded-lg overflow-hidden shadow-[0_22px_44px_-32px_rgba(60,45,25,.4)] hover:-translate-y-1 transition-transform duration-300">
-            <ImgSlot n={3} note="Suíte casal" class="w-full" style="height:200px" />
+            <img src="/images/3.jpg" alt="Suíte casal" width="600" height="400" loading="lazy" class="w-full object-cover" style="height:200px" />
             <div class="p-6">
               <h3 class="text-lg font-bold text-ink mb-2">Suíte casal</h3>
               <p class="text-sm text-ink-muted leading-relaxed">Cama de casal em um ambiente aconchegante, ideal para uma estadia confortável e uma boa noite de sono.</p>
             </div>
           </div>
           <div class="bg-bg border border-border rounded-lg overflow-hidden shadow-[0_22px_44px_-32px_rgba(60,45,25,.4)] hover:-translate-y-1 transition-transform duration-300">
-            <ImgSlot n={4} note="Suíte dupla" class="w-full" style="height:200px" />
+            <img src="/images/4.jpg" alt="Suíte dupla" width="600" height="400" loading="lazy" class="w-full object-cover" style="height:200px" />
             <div class="p-6">
               <h3 class="text-lg font-bold text-ink mb-2">Suíte dupla</h3>
               <p class="text-sm text-ink-muted leading-relaxed">Duas camas de solteiro, ideal para quem viaja acompanhado, prática e confortável para a rotina de trabalho.</p>
             </div>
           </div>
           <div class="bg-bg border border-border rounded-lg overflow-hidden shadow-[0_22px_44px_-32px_rgba(60,45,25,.4)] hover:-translate-y-1 transition-transform duration-300">
-            <ImgSlot n={5} note="Suíte dupla com varanda" class="w-full" style="height:200px" />
+            <img src="/images/5.jpg" alt="Suíte dupla com varanda" width="600" height="400" loading="lazy" class="w-full object-cover" style="height:200px" />
             <div class="p-6">
               <h3 class="text-lg font-bold text-ink mb-2">Suíte dupla com varanda</h3>
               <p class="text-sm text-ink-muted leading-relaxed">Duas camas de solteiro com a vantagem de uma varanda exclusiva, para relaxar ao ar livre depois do trabalho.</p>
             </div>
           </div>
           <div class="bg-bg border border-border rounded-lg overflow-hidden shadow-[0_22px_44px_-32px_rgba(60,45,25,.4)] hover:-translate-y-1 transition-transform duration-300">
-            <ImgSlot n={6} note="Suíte tripla" class="w-full" style="height:200px" />
+            <img src="/images/6.jpg" alt="Suíte tripla" width="600" height="400" loading="lazy" class="w-full object-cover" style="height:200px" />
             <div class="p-6">
               <h3 class="text-lg font-bold text-ink mb-2">Suíte tripla</h3>
               <p class="text-sm text-ink-muted leading-relaxed">Três camas em um ambiente amplo, ideal para acomodar a equipe junta, com todo o conforto para o descanso.</p>
@@ -273,7 +274,8 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
       <div class="container-x py-16 md:py-24">
         <div class="max-w-xl mb-11">
           <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">Galeria</p>
-          <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink">Fotos</h2>
+          <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink mb-4">Fotos</h2>
+          <p class="text-ink-muted leading-relaxed">Conforto, praticidade e atenção aos detalhes em cada ambiente.</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 auto-rows-[150px] md:auto-rows-[200px] gap-3.5">
           {[
@@ -285,9 +287,10 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
             { n: 12, src: '/images/pkg-corporativa.jpg', cap: 'Suíte com varanda', cls: '' },
             { n: 13, src: '/images/pkg-equipes.jpg', cap: 'Quartos para equipes', cls: 'col-span-2' },
           ].map((g, i) => (
-            <div class={`block rounded-md overflow-hidden shadow-[0_18px_40px_-28px_rgba(60,45,25,.5)] ${g.cls}`}>
-              <ImgSlot n={g.n} class="w-full h-full" />
-            </div>
+            <button type="button" data-gallery-open={i} aria-label={`Ampliar foto ${g.n}`}
+              class={`group block m-0 p-0 border-0 bg-transparent cursor-pointer rounded-md overflow-hidden shadow-[0_18px_40px_-28px_rgba(60,45,25,.5)] ${g.cls}`}>
+              <img src={`/images/${g.n}.jpg`} alt={g.cap} loading="lazy" class={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${(g.n === 10 || g.n === 13) ? 'object-bottom' : ''}`} />
+            </button>
           ))}
         </div>
       </div>
@@ -299,13 +302,13 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
         <div class="container-x pt-16 md:pt-24 pb-8 md:pb-10">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-14 items-start">
             <div>
-              <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">sobre</p>
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">Onde estamos</p>
               <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink mb-6">{biz.aboutTitle || 'Sobre nós'}</h2>
               {aboutParas.map((p) => <p class="text-ink-muted leading-relaxed mb-4">{p}</p>)}
             </div>
-            <aside id="como-chegar" class="scroll-mt-24">
+            <aside class="scroll-mt-24">
               <div class="rounded-lg overflow-hidden shadow-[0_30px_60px_-30px_rgba(60,45,25,.55)]">
-                <ImgSlot n={14} note="sobre" class="w-full" style="height:300px" />
+                <img src="/images/14.jpg" alt="Bairro do Guaiúba" width="800" height="600" loading="lazy" class="w-full object-cover" style="height:300px" />
               </div>
             </aside>
           </div>
@@ -314,7 +317,7 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
     )}
 
     <!-- ===================== LOCALIZAÇÃO ===================== -->
-    <section id="localizacao" class="bg-surface scroll-mt-24">
+    <section id="localizacao" class="bg-bg scroll-mt-24">
       <div class="container-x pt-8 md:pt-10 pb-16 md:pb-24">
         <!-- cards de entorno (escaneáveis) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -328,7 +331,7 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
             { icon: 'pool', title: 'Entre Astúrias e Guaiúba', desc: 'Praias de mar calmo a curta distância, ideais para banho.' },
             { icon: 'aid', title: 'Saúde e serviços', desc: 'Pronto-socorro 24h, farmácias e o Shopping La Plage a poucos minutos, em Pitangueiras.' },
           ].map((c) => (
-            <div class="bg-bg border border-border rounded-lg p-6">
+            <div class="bg-surface border border-border rounded-lg p-6 shadow-[0_1px_2px_rgba(60,45,25,.06)]">
               <span class="inline-flex w-11 h-11 rounded-[20px] bg-cat-terracota/10 items-center justify-center mb-4">
                 <svg class="w-5 h-5 text-cat-terracota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={AICON[c.icon] || AICON.default}></svg>
               </span>
@@ -336,6 +339,48 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
               <p class="text-[13.5px] text-ink-muted leading-relaxed">{c.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== COMO CHEGAR ===================== -->
+    <section id="como-chegar" class="bg-elev scroll-mt-24">
+      <div class="container-x py-16 md:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-cat-terracota mb-3.5">Como chegar</p>
+            <h2 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-ink mb-5">Fácil acesso, pelos dois lados do porto</h2>
+            {biz.address && (
+              <div class="flex gap-2.5 items-start mb-6">
+                <svg class="w-5 h-5 mt-0.5 shrink-0 text-cat-terracota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span class="text-[15px] leading-relaxed text-ink">{biz.address}</span>
+              </div>
+            )}
+            <div class="flex flex-col gap-4 mb-7">
+              {[
+                { icon: 'ship', t: 'De Santos (Margem Direita)', d: 'Balsa pela Ponta da Praia (cerca de 7 minutos, 24h) ou pela Rodovia Cônego Domênico Rangoni.' },
+                { icon: 'route', t: 'De São Paulo', d: 'Pelas rodovias Anchieta ou Imigrantes até a Baixada Santista, seguindo para o Guarujá.' },
+                { icon: 'parking', t: 'Vagas para carros', d: 'Rotativas na propriedade e gratuitas na rua em frente ao hotel.' },
+              ].map((r) => (
+                <div class="flex gap-3.5 items-start">
+                  <span class="shrink-0 w-10 h-10 rounded-[20px] bg-cat-terracota/10 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-cat-terracota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={AICON[r.icon] || AICON.default}></svg>
+                  </span>
+                  <div>
+                    <div class="text-[15px] font-bold text-ink">{r.t}</div>
+                    <div class="text-[13.5px] text-ink-muted leading-relaxed">{r.d}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <a href={mapHref} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 rounded-[20px] bg-[#26331C] text-[#F4EEDD] text-sm font-semibold uppercase tracking-wide no-underline hover:brightness-110 transition-[filter]">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              Ver no mapa
+            </a>
+          </div>
+          <div class="rounded-lg overflow-hidden border border-border shadow-[0_30px_60px_-30px_rgba(60,45,25,.55)]">
+            <iframe src={mapEmbedSrc} title={`Como chegar ao ${company}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full block" style="border:0; height:380px;"></iframe>
+          </div>
         </div>
       </div>
     </section>
@@ -467,7 +512,7 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent('Hotel C
           var tel = (iti && iti.getNumber()) ? iti.getNumber() : (d.get('telefone') || '').toString().trim();
           var email = (d.get('email') || '').toString().trim();
           var wa = form.getAttribute('data-wa') || '';
-          var linhas = ['Olá! Gostaria de uma proposta de hospedagem corporativa (Corporativo) no Hotel Cajueiro.', ''];
+          var linhas = ['Olá! Gostaria de uma proposta de hospedagem corporativa no Hotel Cajueiro.', ''];
           if (nome) linhas.push('Nome: ' + nome);
           if (tel) linhas.push('Telefone: ' + tel);
           if (email) linhas.push('E-mail: ' + email);
