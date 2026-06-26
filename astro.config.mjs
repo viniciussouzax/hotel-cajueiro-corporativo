@@ -23,6 +23,7 @@ export default defineConfig({
     site: siteUrl,
     output: 'static',
     adapter: vercel(),
+    build: { inlineStylesheets: 'always' },
     integrations: [
         react(),
         tailwind({ applyBaseStyles: false }),
